@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vending Machine Catalogue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vending-machine {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .vending-machine h2 {
+            margin-top: 0;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-info h3 {
+            margin: 0;
+        }
+
+        .item-info p {
+            margin: 0;
+            color: #666;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-actions button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .total-cost {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vending Machine Catalogue</h1>
+        <div class="items">
+            <!-- Add items here -->
+        </div>
+        <button onclick="calculateTotal()">Calculate Total</button>
+        <p id="totalCost">Total Cost: $0.00</p>
+    </div>
+
+    <script>
+        const itemsData = [
+            { name: "Soda", price: 1.50 },
+            { name: "Chips", price: 1.00 },
+            { name: "Candy", price: 1.00 },
+            { name: "Water", price: 2.00 }
+        ];
+
+        const itemsContainer = document.querySelector('.items');
+
+        itemsData.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('item');
+            div.innerHTML = `
+                <input type="checkbox" id="${item.name}" value="${item.price}">
+                <label for="${item.name}">${item.name} - $${item.price.toFixed(2)}</label>
+            `;
+            itemsContainer.appendChild(div);
+        });
+
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        let totalCost = 0;
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    totalCost += parseFloat(checkbox.value);
+                } else {
+                    totalCost -= parseFloat(checkbox.value);
+                }
+                document.getElementById('totalCost').innerText = `Total Cost: $${totalCost.toFixed(2)}`;
+            });
+        });
+
+        function calculateTotal() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            let total = 0;
+            checkboxes.forEach(checkbox => {
+                total += parseFloat(checkbox.value);
+            });
+            document.getElementById('totalCost').innerText = `Total Cost: $${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
